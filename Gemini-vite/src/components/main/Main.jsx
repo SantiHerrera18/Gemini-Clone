@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { assets } from "../../assets/assets";
 import "./main.css";
+import { AIContext } from "../../context/AIContext";
 
 const Main = () => {
+  const { requestAI } = useContext(AIContext);
+
   return (
     <div className="main">
       <div className="nav">
@@ -39,7 +43,13 @@ const Main = () => {
             <div>
               <img src={assets.gallery_icon} alt="" />
               <img src={assets.mic_icon} alt="" />
-              <img src={assets.send_icon} alt="" />
+              <img
+                src={assets.send_icon}
+                alt=""
+                onClick={async () => {
+                  console.log(await requestAI("what is calisthenics"));
+                }}
+              />
             </div>
           </div>
           <p className="bottom-info">
