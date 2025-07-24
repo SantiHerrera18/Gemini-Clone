@@ -11,6 +11,7 @@ async function main(prompt) {
         model: "gemini-2.5-flash",
         contents: prompt,
     });
+
     return response.text
 }
 

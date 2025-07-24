@@ -60,6 +60,9 @@ const Main = () => {
                   <hr />
                   <hr />
                   <hr />
+                  <hr />
+                  <hr />
+                  <hr />
                 </div>
               ) : (
                 <p dangerouslySetInnerHTML={{ __html: resultData }}></p>

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { assets } from "../../assets/assets";
 import "./sidebar.css";
+import { AIContext } from "../../context/AIContext";
 
 const SideBar = () => {
   const [menuOpened, setMenuOpened] = useState(false);
+  const { prevPromts } = useContext(AIContext);
 
   return (
     <div className="sidebar">
@@ -25,7 +27,9 @@ const SideBar = () => {
           {!menuOpened ? (
             <div className="recent-entry">
               <img src={assets.message_icon} alt="" />
-              <p>What the hell</p>
+              {prevPromts.map((prompt, key) => {
+                return <p key={key}>{prompt}</p>;
+              })}
             </div>
           ) : null}
         </div>
