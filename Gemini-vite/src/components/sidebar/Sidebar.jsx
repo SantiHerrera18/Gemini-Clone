@@ -5,7 +5,12 @@ import { AIContext } from "../../context/AIContext";
 
 const SideBar = () => {
   const [menuOpened, setMenuOpened] = useState(false);
-  const { prevPromts } = useContext(AIContext);
+  const { prevPromts, setPrevPrompts, requestAI } = useContext(AIContext);
+
+  const uploadPrompts = async (prompt) => {
+    setPrevPrompts((prev) => [...prev, prompt]);
+    requestAI(prompt);
+  };
 
   return (
     <div className="sidebar">
@@ -22,17 +27,23 @@ const SideBar = () => {
           <img src={assets.plus_icon} alt="" />
           {!menuOpened ? <p>New chat</p> : null}
         </div>
-        <div className="recent">
-          {!menuOpened ? <p className="recent-title">Recent</p> : null}
-          {!menuOpened ? (
-            <div className="recent-entry">
-              <img src={assets.message_icon} alt="" />
-              {prevPromts.map((prompt, key) => {
-                return <p key={key}>{prompt}</p>;
-              })}
-            </div>
-          ) : null}
-        </div>
+        {!menuOpened ? (
+          <div className="recent">
+            <p className="recent-title">Recent</p>
+            {prevPromts.map((prompt, index) => {
+              return (
+                <div
+                  key={index}
+                  className="recent-entry"
+                  onClick={() => uploadPrompts(prompt)}
+                >
+                  <img src={assets.message_icon} alt="" />
+                  <p>{prompt.slice(0, 18)} ...</p>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
       <div className="bottom">
         <div className="bottom-item recent-entry">

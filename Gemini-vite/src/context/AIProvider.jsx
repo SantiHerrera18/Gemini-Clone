@@ -12,19 +12,27 @@ export function AIProvider({ children }) {
 
   const typingAnimation = (nextWord, index) => {
     setTimeout(() => {
-      console.log(nextWord);
-
       setResultData((prev) => prev + nextWord + " ");
-    }, 70 * index);
+    }, 30 * index);
   };
 
-  const requestAI = async () => {
+  const requestAI = async (prompt) => {
+    setInput("");
     setResultData("");
-    setRecentPrompt(input);
     setLoading(true);
     setShowResult(true);
-    setInput("");
-    const response = await main(input);
+
+    let response;
+    if (prompt) {
+      setRecentPrompt(prompt);
+      response = await main(prompt);
+    } else {
+      //* Using this to add prompts to recents section
+
+      setPrevPrompts((prev) => [...prev, input]);
+      setRecentPrompt(input);
+      response = await main(input);
+    }
 
     //* Using this loop to catch the bold words on the response
     let responseArray = response.split("**");
@@ -39,10 +47,7 @@ export function AIProvider({ children }) {
 
     //*Using this to get the typing animation
     let spacedResponseArray = spacedResponse.split(" ");
-
-    for (let i = 0; i < spacedResponseArray.length; i++) {
-      typingAnimation(spacedResponseArray[i], i);
-    }
+    spacedResponseArray.forEach((word, i) => typingAnimation(word, i));
 
     setLoading(false);
     setInput("");
