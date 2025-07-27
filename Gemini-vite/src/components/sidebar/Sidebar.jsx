@@ -8,7 +8,7 @@ const SideBar = () => {
   const { prevPromts, setPrevPrompts, requestAI } = useContext(AIContext);
 
   const uploadPrompts = async (prompt) => {
-    setPrevPrompts((prev) => [...prev, prompt]);
+    // setPrevPrompts((prev) => [...prev, prompt]);
     requestAI(prompt);
   };
 
